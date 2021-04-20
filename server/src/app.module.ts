@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from './user/user.model';
 import * as dotenv from 'dotenv';
+import { AppController } from './app.controller';
 dotenv.config();
 
 @Module({
@@ -16,5 +17,6 @@ dotenv.config();
       models: [UserModel],
     }),
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
