@@ -1,67 +1,37 @@
 import type { NextPage } from 'next'
-import { Button } from 'react-bootstrap'
+import {Badge, Button} from 'react-bootstrap'
 import Head from 'next/head'
-
-import Counter from '../features/counter/Counter'
 import styles from '../styles/Home.module.css'
+import {RootState, useAppDispatch} from '../store/store';
+import { useSelector } from 'react-redux';
+import { incrementPlus} from "../actions/counters/counters";
+import {ICounterState} from "../reducers/counter/counter";
+import HeaderPage from "../layout/header/header";
 
 const IndexPage: NextPage = () => {
+    const state = useSelector<RootState, ICounterState>((state) => state.counter);
+    const dispatch = useAppDispatch();
+    const handleClick = () => {
+        dispatch(incrementPlus(state?.data + 1))
+    }
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Redux Toolkit</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+        <HeaderPage/>
       <header className={styles.header}>
-        <img src="/logo.svg" className={styles.logo} alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className={styles.link}
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className={styles.link}
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className={styles.link}
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className={styles.link}
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-           <Button variant="primary" href="https://nextjs.org/docs">
-              BUTTON BOOTSTRAP
-           </Button>
-        </span>
 
+        <img src="/logo.svg" className={styles.logo} alt="logo" />
+          <h1>
+              Example heading <Badge variant="secondary">{state?.data}</Badge>
+          </h1>
+           <Button variant="primary"  onClick={handleClick}>
+              Pluse
+           </Button>
       </header>
-    </div>
+    </>
   )
 }
 
